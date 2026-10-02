@@ -80,3 +80,10 @@ python -m http.server
 ```
 
 Have a wonderful birthday, Nidhi! 🎂🎈
+
+## 🌐 Live Demo
+
+🎂 **[View Nidhi's Birthday Website](https://nidhi-birthday-special.netlify.app)**
+
+> Hosted on **Netlify** and deployed as a fully responsive static website.
+
