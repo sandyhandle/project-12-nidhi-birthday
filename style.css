@@ -1,0 +1,1121 @@
+/* ============================================= */
+/* Happy Birthday Nidhi - Stylesheet            */
+/* ============================================= */
+
+/* ---------- CSS Reset & Base ---------- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --pink: #ff6ec7;
+    --purple: #7b68ee;
+    --deep-purple: #4a2f8f;
+    --accent-1: #ff8ad8;          /* FEATURE 1: theme accent color 1 (overridden by theme classes) */
+    --accent-2: #c76ad9;          /* FEATURE 1: theme accent color 2 */
+    --accent-3: #7b68ee;          /* FEATURE 1: theme accent color 3 */
+    --bg-gradient: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 40%, var(--accent-3) 100%);
+    --bg-gradient-soft: linear-gradient(160deg, var(--accent-1) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
+    --glass-bg: rgba(255, 255, 255, 0.15);
+    --glass-bg-strong: rgba(255, 255, 255, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --text-light: #ffffff;
+    --text-soft: #f3e9ff;
+    --shadow-glow: 0 0 40px rgba(var(--accent-rgb), 0.45);
+    --accent-rgb: 255, 110, 199;  /* FEATURE 1: RGB triplet for rgba() usage in themes */
+    /* NEW: consistent fallback for browsers without backdrop-filter support */
+    --glass-fallback: rgba(85, 40, 120, 0.75);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: var(--text-light);
+    background: var(--bg-gradient);
+}
+
+/* ---------- Page System ---------- */
+.page {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.98);
+    transition: opacity 0.9s ease, transform 0.9s ease, visibility 0.9s ease;
+    z-index: 1;
+}
+
+.page.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    z-index: 2;
+}
+
+/* ---------- Backgrounds ---------- */
+#welcome-page {
+    background: var(--bg-gradient-soft);
+    background-size: 300% 300%;
+    animation: gradientShift 14s ease infinite;
+}
+
+#gallery-page {
+    background: var(--bg-gradient);
+    background-size: 300% 300%;
+    animation: gradientShift 16s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Animated gradient sphere decorations */
+#gallery-page::before,
+#gallery-page::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+}
+#gallery-page::before {
+    width: 360px;
+    height: 360px;
+    background: rgba(var(--accent-rgb), 0.6);
+    top: -90px;
+    left: -90px;
+    animation: floatSphere 12s ease-in-out infinite;
+}
+#gallery-page::after {
+    width: 420px;
+    height: 420px;
+    background: rgba(var(--accent-rgb), 0.45);
+    bottom: -120px;
+    right: -120px;
+    animation: floatSphere 14s ease-in-out infinite reverse;
+}
+@keyframes floatSphere {
+    0%, 100% { transform: translate(0, 0); }
+    50%      { transform: translate(40px, -30px); }
+}
+
+/* ---------- Glassmorphism Cards ---------- */
+.welcome-card,
+.gallery-card {
+    position: relative;
+    z-index: 2;
+    background: var(--glass-fallback); /* FIX: solid fallback when backdrop-filter unsupported */
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    box-shadow: var(--shadow-glow);
+    max-width: 640px;
+    width: 100%;
+    text-align: center;
+    padding: 52px 40px;
+}
+
+/* FIX: progressive enhancement — apply blur only where supported */
+@supports (backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px)) {
+    .welcome-card,
+    .gallery-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+    }
+}
+
+.gallery-card {
+    max-width: 760px;
+    padding: 44px 36px;
+}
+
+/* ---------- Fade-in utility ---------- */
+.fade-in {
+    animation: fadeInUp 1.1s ease both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Welcome Page Typography ---------- */
+.cake-icon {
+    font-size: 4rem;
+    margin-bottom: 10px;
+    animation: bob 2.6s ease-in-out infinite;
+}
+
+@keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-12px); }
+}
+
+.welcome-title {
+    font-size: clamp(1.5rem, 4.5vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 34px;
+    text-shadow: 0 2px 18px rgba(74, 47, 143, 0.5);
+}
+
+/* ---------- Glowing Button ---------- */
+.btn-glow {
+    position: relative;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1.18rem;
+    font-weight: 600;
+    color: #fff;
+    padding: 16px 44px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.9), rgba(var(--accent-rgb), 0.6));
+    box-shadow: 0 8px 28px rgba(var(--accent-rgb), 0.55);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    animation: pulseGlow 2.4s ease-in-out infinite;
+}
+
+.btn-glow::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.6s ease;
+}
+
+.btn-glow:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 12px 36px rgba(var(--accent-rgb), 0.7);
+}
+
+.btn-glow:hover::after {
+    left: 100%;
+}
+
+.btn-glow:active {
+    transform: translateY(0) scale(0.98);
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 8px 28px rgba(var(--accent-rgb), 0.55); }
+    50%      { box-shadow: 0 8px 40px rgba(var(--accent-rgb), 0.9); }
+}
+
+/* ---------- Floating Balloons ---------- */
+.balloon-float {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.balloon {
+    position: absolute;
+    bottom: -120px;
+    width: 70px;
+    height: 88px;
+    border-radius: 50% 50% 48% 48%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.55), rgba(255,255,255,0.15));
+}
+.balloon::after {
+    /* string */
+    content: "";
+    position: absolute;
+    top: 88px;
+    left: 50%;
+    width: 2px;
+    height: 60px;
+    background: rgba(255,255,255,0.45);
+    transform: translateX(-50%);
+}
+.balloon::before {
+    /* highlight */
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    width: 16px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.7);
+    filter: blur(2px);
+}
+
+/* Balloon colours & float positions */
+.balloon.b1 { left: 8%;  background: linear-gradient(135deg, #ff8ad8, #ff5bbf); animation: floatUp 11s linear infinite; }
+.balloon.b2 { left: 22%; background: linear-gradient(135deg, #b39dff, #7b68ee); animation: floatUp 14s linear infinite 2s; }
+.balloon.b3 { left: 42%; background: linear-gradient(135deg, #ffc1e6, #ff8ad8); animation: floatUp 13s linear infinite 4s; }
+.balloon.b4 { left: 60%; background: linear-gradient(135deg, #a3ffe6, #5ee5c9); animation: floatUp 16s linear infinite 1s; }
+.balloon.b5 { left: 78%; background: linear-gradient(135deg, #ffd3a3, #ffa45b); animation: floatUp 12s linear infinite 3s; }
+.balloon.b6 { left: 90%; background: linear-gradient(135deg, #c2a3ff, #9d7bff); animation: floatUp 15s linear infinite 5s; }
+
+@keyframes floatUp {
+    0%   { transform: translateY(0)    rotate(0deg);   opacity: 0; }
+    10%  { opacity: 0.85; }
+    90%  { opacity: 0.85; }
+    100% { transform: translateY(-110vh) rotate(15deg); opacity: 0; }
+}
+
+/* ---------- Gallery Page Typography ---------- */
+.gallery-title {
+    font-size: clamp(1.7rem, 5vw, 2.9rem);
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 20px rgba(74, 47, 143, 0.5);
+}
+
+.gallery-message {
+    font-size: clamp(0.9rem, 2.2vw, 1.08rem);
+    line-height: 1.6;
+    color: var(--text-soft);
+    max-width: 540px;
+    margin: 0 auto 28px;
+}
+
+/* ---------- Slideshow ---------- */
+.slideshow-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 580px;
+    aspect-ratio: 4 / 3;
+    margin: 0 auto;
+    border-radius: 22px;                          /* FEATURE 5: slightly more rounded */
+    overflow: hidden;
+    /* FEATURE 5: layered shadow — deep base + soft glow + accent glow */
+    box-shadow:
+        0 10px 36px rgba(0, 0, 0, 0.35),
+        0 0 30px rgba(var(--accent-rgb), 0.25),
+        inset 0 0 0 1px var(--glass-border);
+    border: 2px solid rgba(255, 255, 255, 0.35);  /* FEATURE 5: elegant border */
+    transition: box-shadow 0.5s ease;
+}
+
+/* FEATURE 5: subtle glow pulse on the frame */
+.slideshow-wrapper:hover {
+    box-shadow:
+        0 14px 44px rgba(0, 0, 0, 0.4),
+        0 0 50px rgba(var(--accent-rgb), 0.4),
+        inset 0 0 0 1px var(--glass-border);
+}
+
+.slideshow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.08);                        /* FEATURE 5: slightly larger initial zoom */
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 6s ease-out;  /* FEATURE 5: slow Ken Burns zoom */
+}
+
+.slide.active {
+    opacity: 1;
+    transform: scale(1);                           /* FEATURE 5: smooth zoom-out as photo displays */
+}
+
+/* ---------- Photo Counter ---------- */
+/* NEW: Prev / Next arrow buttons for manual slideshow navigation.
+   Positioned at the bottom-right of the image as requested.     */
+.slide-arrow {
+    position: absolute;
+    bottom: 14px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    background: rgba(74, 47, 143, 0.75);
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, background 0.3s ease;
+    padding: 0;
+}
+
+@supports (backdrop-filter: blur(6px)) or (-webkit-backdrop-filter: blur(6px)) {
+    .slide-arrow {
+        background: rgba(74, 47, 143, 0.5);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+}
+
+.slide-arrow:hover {
+    background: rgba(255, 110, 199, 0.8);
+    transform: scale(1.12);
+}
+
+.slide-arrow:active {
+    transform: scale(0.95);
+}
+
+/* Position next arrow to the left of the photo counter */
+.slide-arrow-next {
+    right: 14px;
+}
+
+/* Position prev arrow to the left of the next arrow */
+.slide-arrow-prev {
+    right: 62px;
+}
+
+.photo-counter {
+    position: absolute;
+    bottom: 14px;
+    right: 96px;             /* FIX: adjust counter position for smaller arrows on mobile */
+    background: rgba(74, 47, 143, 0.75);     /* FIX: darker fallback */
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 3;
+}
+
+/* ---------- Navigation Dots ---------- */
+.slide-nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;                              /* FIX: tighter spacing between dots */
+    margin-top: 22px;
+}
+
+.slide-nav .dot {
+    border: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* FIX: reduced padding from 16px → 6px so dots appear small
+       and compact while keeping a reasonable touch target */
+    padding: 6px;
+    box-sizing: content-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* The visible dot inside the touch area */
+.slide-nav .dot::after {
+    content: "";
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.slide-nav .dot.active::after {
+    background: #fff;
+    transform: scale(1.3);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+}
+
+.slide-nav .dot:hover::after {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- Confetti ---------- */
+.confetti-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.confetti {
+    position: absolute;
+    top: -10px;
+    width: 10px;
+    height: 14px;
+    opacity: 0.9;
+    animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+    0%   { transform: translateY(0) rotate(0deg);   opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+}
+
+/* ---------- Responsive Adjustments ---------- */
+@media (max-width: 600px) {
+    .welcome-card {
+        padding: 40px 22px;
+    }
+    .gallery-card {
+        padding: 34px 18px;
+    }
+    .cake-icon {
+        font-size: 3rem;
+    }
+    .btn-glow {
+        padding: 14px 34px;
+        font-size: 1.05rem;
+    }
+    .photo-counter {
+        font-size: 0.75rem;
+        padding: 5px 12px;
+        right: 96px;             /* FIX: adjust counter position for smaller arrows on mobile */
+    }
+    .balloon {
+        width: 52px;
+        height: 66px;
+    }
+    .balloon::after {
+        height: 44px;
+    }
+    /* NEW: smaller arrow buttons on mobile */
+    .slide-arrow {
+        width: 34px;
+        height: 34px;
+        font-size: 1.25rem;
+    }
+    .slide-arrow-next {
+        right: 12px;
+    }
+    .slide-arrow-prev {
+        right: 52px;             /* FIX: adjusted for 34px arrow + 6px gap */
+    }
+}
+
+@media (max-width: 380px) {
+    .welcome-title {
+        font-size: 1.35rem;
+    }
+    .gallery-title {
+        font-size: 1.5rem;
+    }
+    .btn-glow {
+        padding: 12px 28px;
+    }
+    /* FIX: tighten dot padding on very small screens */
+    .slide-nav .dot {
+        padding: 4px;
+    }
+    /* FIX: prevent mute button overflow on tiny screens */
+    .mute-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+        top: 12px;
+        right: 12px;
+    }
+}
+
+/* ============================================= */
+/* NEW: Loading Spinner                          */
+/* Shows over the slideshow until the first     */
+/* image finishes loading.                      */
+/* ============================================= */
+.slide-loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(74, 47, 143, 0.3);
+    z-index: 4;
+    transition: opacity 0.4s ease;
+}
+
+.slide-loader .spinner {
+    width: 44px;
+    height: 44px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================= */
+/* NEW: Slide Caption                            */
+/* Displays a personal caption under each photo */
+/* ============================================= */
+.slide-caption {
+    text-align: center;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--text-soft);
+    margin-top: 16px;
+    min-height: 1.4em;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.slide-caption:empty {
+    min-height: 0;
+    margin-top: 0;
+}
+
+/* ============================================= */
+/* NEW: Mute / Unmute Button                     */
+/* Floating control for background music        */
+/* ============================================= */
+.mute-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fallback);
+    color: #fff;
+    font-size: 1.25rem;
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+    box-shadow: 0 4px 18px rgba(74, 47, 143, 0.4);
+}
+
+/* FIX: hide mute button on the welcome page (Page 1).
+   JS removes .hidden when the gallery opens, and it stays
+   visible on the final message page (Page 3) too. */
+.mute-btn.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+    .mute-btn {
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+}
+
+.mute-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 24px rgba(255, 110, 199, 0.5);
+}
+
+.mute-btn:active {
+    transform: scale(0.95);
+}
+
+/* ============================================= */
+/* NEW: Ambient Sparkles                         */
+/* Soft glowing dots drifting upward            */
+/* ============================================= */
+.sparkle {
+    position: absolute;
+    bottom: -20px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    opacity: 0;
+    animation: sparkleRise linear forwards;
+    pointer-events: none;
+}
+
+@keyframes sparkleRise {
+    0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.9;
+    }
+    80% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-100vh) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* ============================================= */
+/* NEW: Signature / "Made with love" footer     */
+/* ============================================= */
+.signature {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    opacity: 0.8;
+    margin-top: 24px;
+    letter-spacing: 0.3px;
+}
+
+.signature span {
+    animation: heartbeat 1.6s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25%      { transform: scale(1.2); }
+    40%      { transform: scale(1); }
+}
+
+/* ---------- Reduced motion preference ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+/* ============================================= */
+/* FEATURE 2: BIRTHDAY BLAST OVERLAY              */
+/* Full-screen celebration burst shown for ~2.5s */
+/* after clicking "Yes, It's Me ❤️"                */
+/* ============================================= */
+.blast-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.blast-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Central glow burst */
+.blast-core {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(var(--accent-rgb), 0.6) 40%, transparent 70%);
+    animation: blastCore 1.2s ease-out forwards;
+}
+
+@keyframes blastCore {
+    0%   { width: 0; height: 0; opacity: 1; }
+    50%  { width: 200vmax; height: 200vmax; opacity: 0.6; }
+    100% { width: 250vmax; height: 250vmax; opacity: 0; }
+}
+
+/* Expanding rings */
+.blast-ring {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    animation: blastRing 1.5s ease-out forwards;
+}
+
+.blast-ring-1 { animation-delay: 0s; }
+.blast-ring-2 { animation-delay: 0.3s; }
+.blast-ring-3 { animation-delay: 0.6s; }
+
+@keyframes blastRing {
+    0%   { width: 20px; height: 20px; opacity: 1; border-width: 4px; }
+    100% { width: 120vmax; height: 120vmax; opacity: 0; border-width: 1px; }
+}
+
+/* Blast confetti pieces (created by JS, styled here) */
+.blast-confetti {
+    position: absolute;
+    width: 10px;
+    height: 14px;
+    opacity: 0;
+    animation: blastConfettiFly 1.8s ease-out forwards;
+}
+
+@keyframes blastConfettiFly {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--bx, 0), var(--by, 0)) rotate(720deg) scale(0.5);
+        opacity: 0;
+    }
+}
+
+/* Blast hearts (created by JS) */
+.blast-heart {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0;
+    animation: blastHeartFloat 2s ease-out forwards;
+}
+
+@keyframes blastHeartFloat {
+    0%   { transform: translate(0, 0) scale(0.5); opacity: 1; }
+    100% { transform: translate(var(--hx, 0), var(--hy, 0)) scale(1.5); opacity: 0; }
+}
+
+/* ============================================= */
+/* FEATURE 4: AMBIENT DECORATIONS BEHIND PHOTOS   */
+/* Hearts, sparkles, glowing circles, and tiny   */
+/* stars that float BEHIND the photo frame.      */
+/* z-index is 1 (below card at z-index 2).       */
+/* ============================================= */
+.ambient-decor {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 1;               /* FEATURE 4: behind the gallery card (z-index: 2) */
+    pointer-events: none;
+}
+
+.ambient-decor .amb-heart {
+    position: absolute;
+    bottom: -30px;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.5);
+    animation: ambHeartRise linear infinite;
+    pointer-events: none;
+}
+
+@keyframes ambHeartRise {
+    0%   { transform: translateY(0) scale(0.8); opacity: 0; }
+    15%  { opacity: 0.8; }
+    85%  { opacity: 0.8; }
+    100% { transform: translateY(-105vh) scale(1.1); opacity: 0; }
+}
+
+.ambient-decor .amb-sparkle {
+    position: absolute;
+    bottom: -20px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+    animation: ambSparkleRise linear infinite;
+    pointer-events: none;
+}
+
+@keyframes ambSparkleRise {
+    0%   { transform: translateY(0) scale(0.4); opacity: 0; }
+    20%  { opacity: 0.9; }
+    80%  { opacity: 0.6; }
+    100% { transform: translateY(-105vh) scale(1.2); opacity: 0; }
+}
+
+.ambient-decor .amb-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(20px);
+    opacity: 0.35;
+    animation: ambGlowDrift infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes ambGlowDrift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(30px, -20px) scale(1.2); }
+    66%      { transform: translate(-20px, 30px) scale(0.9); }
+}
+
+.ambient-decor .amb-star {
+    position: absolute;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    animation: ambStarTwinkle infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes ambStarTwinkle {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50%      { opacity: 0.9; transform: scale(1.2); }
+}
+
+/* ============================================= */
+/* FEATURE 8: FINAL MEMORY MESSAGE PAGE           */
+/* ============================================= */
+.final-card {
+    position: relative;
+    z-index: 2;
+    background: var(--glass-fallback);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    box-shadow: 0 0 50px rgba(var(--accent-rgb), 0.4);
+    max-width: 640px;
+    width: 100%;
+    text-align: center;
+    padding: 52px 40px;
+}
+
+@supports (backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px)) {
+    .final-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+    }
+}
+
+.final-cake {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    animation: bob 2.6s ease-in-out infinite;
+}
+
+.final-title {
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-shadow: 0 2px 20px rgba(var(--accent-rgb), 0.5);
+}
+
+.final-divider {
+    width: 60%;
+    max-width: 200px;
+    height: 2px;
+    margin: 0 auto 24px;
+    background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.8), transparent);
+    border-radius: 2px;
+}
+
+.final-message {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    line-height: 1.7;
+    color: var(--text-soft);
+    margin-bottom: 16px;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.final-highlight {
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    font-weight: 600;
+    color: #fff;
+    margin-top: 20px;
+}
+
+.final-hearts {
+    margin-top: 28px;
+    position: relative;
+    height: 60px;
+    overflow: hidden;
+}
+
+/* Floating hearts inside final page (created by JS) */
+.final-hearts .fh {
+    position: absolute;
+    bottom: 0;
+    font-size: 1.4rem;
+    animation: finalHeartFloat linear infinite;
+    pointer-events: none;
+}
+
+@keyframes finalHeartFloat {
+    0%   { transform: translateY(0) scale(0.6); opacity: 0; }
+    20%  { opacity: 0.9; }
+    100% { transform: translateY(-280px) scale(1.2); opacity: 0; }
+}
+
+/* ============================================= */
+/* ENHANCEMENT 1: SLIDESHOW HINT MESSAGE           */
+/* Subtle pulse, bottom-center, always visible     */
+/* throughout the slideshow. Must not overlap      */
+/* the photo frame.                                */
+/* ============================================= */
+.slideshow-hint {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.65);
+    text-align: center;
+    z-index: 50;
+    pointer-events: none;
+    white-space: nowrap;
+    animation: hintPulse 3s ease-in-out infinite;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.2px;
+}
+
+@keyframes hintPulse {
+    0%, 100% { opacity: 0.45; }
+    50%      { opacity: 0.8; }
+}
+
+/* Hide hint on very small screens to prevent overflow */
+@media (max-width: 380px) {
+    .slideshow-hint {
+        font-size: 0.68rem;
+        bottom: 12px;
+        white-space: normal;
+        max-width: 90%;
+    }
+}
+@media (max-width: 320px) {
+    .slideshow-hint {
+        font-size: 0.62rem;
+        bottom: 8px;
+    }
+}
+
+/* ============================================= */
+/* ENHANCEMENT 3-5: MEMORY COLLAGE (final page)    */
+/* Polaroid-style photo collage shown only when    */
+/* hiddenSurpriseUnlocked = true. Reuses existing  */
+/* slideshow photos with random order + rotation.  */
+/* Hearts float around and behind it.              */
+/* ============================================= */
+.memory-collage {
+    /* FIX: always visible so hearts show even without the surprise.
+       Polaroid cards are hidden via .polaroid{display:none} until
+       the collage gets .unlocked. */
+    display: block;
+    position: relative;
+    z-index: 3;
+    max-width: 540px;
+    margin: 24px auto 8px;
+    padding: 0;                  /* FIX: no padding so hearts fill edge-to-edge */
+    min-height: 80px;            /* small when only hearts (no surprise) */
+    overflow: hidden;            /* FIX: clip hearts WITHIN collage — no overflow below */
+}
+
+/* FIX: Hearts container fills the ENTIRE collage area as a
+   background layer. Override the base .final-hearts which has
+   margin-top:28px, height:60px, overflow:hidden — that created
+   a separate strip BELOW the photos. Now hearts are absolutely
+   positioned to cover the full collage, clipped by the parent. */
+.memory-collage .collage-hearts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;               /* fill entire collage area */
+    margin: 0;                   /* override base .final-hearts margin-top:28px */
+    overflow: hidden;            /* clip hearts at collage bounds */
+    z-index: 1;                  /* behind polaroid cards (z-index: 2) */
+    pointer-events: none;
+}
+
+/* FIX: hearts inside collage start from the bottom edge and float
+   upward through the entire collage area, behind and between photos. */
+.memory-collage .collage-hearts .fh {
+    position: absolute;
+    bottom: 0;
+    font-size: 1.4rem;
+    animation: finalHeartFloat linear infinite;
+    pointer-events: none;
+}
+
+/* FIX: polaroid cards hidden by default — only appear when unlocked.
+   z-index:2 keeps them ABOVE the hearts layer (z-index:1). */
+.polaroid {
+    display: none;
+    position: absolute;
+    width: 130px;
+    background: #fff;
+    padding: 8px 8px 24px;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    z-index: 2;                 /* above collage-hearts (z-index: 1) */
+}
+
+/* FIX: polaroids become visible only when collage is unlocked */
+.memory-collage.unlocked .polaroid {
+    display: block;
+    animation: polaroidDrop 0.8s ease both;
+}
+
+/* FIX: hover effect — only applies when polaroids are visible */
+.memory-collage.unlocked .polaroid:hover {
+    transform: scale(1.08) rotate(0deg) !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+    z-index: 10;
+}
+
+.polaroid img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+}
+
+@keyframes polaroidDrop {
+    from { opacity: 0; transform: translateY(-30px) scale(0.8); }
+    to   { opacity: 1; }
+}
+
+/* ---- Responsive collage sizing ---- */
+@media (max-width: 768px) {
+    .polaroid { width: 110px; }
+}
+@media (max-width: 414px) {
+    .polaroid { width: 95px; padding: 6px 6px 18px; }
+}
+@media (max-width: 390px) {
+    .polaroid { width: 85px; }
+}
+@media (max-width: 375px) {
+    .polaroid { width: 78px; padding: 5px 5px 14px; }
+}
+@media (max-width: 320px) {
+    .polaroid { width: 68px; padding: 4px 4px 12px; }
+}
+
+/* ---------- Reduced motion preference ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}

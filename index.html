@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A beautiful birthday celebration website for Nidhi">
+    <title>Happy Birthday Nidhi ❤️</title>
+    <!-- NEW: emoji-based SVG favicon to prevent 404 on deployment -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ============================================= -->
+    <!-- FEATURE 1: DYNAMIC THEME — the <body> gets a   -->
+    <!-- theme class (theme-purple, theme-skyblue,     -->
+    <!-- etc.) applied by script.js on page load.      -->
+    <!-- ============================================= -->
+
+    <!-- ============================================= -->
+    <!-- FEATURE 2: BIRTHDAY BLAST OVERLAY              -->
+    <!-- Full-screen celebration that plays for ~2.5s  -->
+    <!-- after the user clicks "Yes, It's Me ❤️"        -->
+    <!-- before transitioning to the gallery.          -->
+    <!-- ============================================= -->
+    <div id="blast-overlay" class="blast-overlay" aria-hidden="true">
+        <div class="blast-core"></div>
+        <div class="blast-ring blast-ring-1"></div>
+        <div class="blast-ring blast-ring-2"></div>
+        <div class="blast-ring blast-ring-3"></div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- PAGE 1: Birthday Welcome Page                  -->
+    <!-- ============================================= -->
+    <section id="welcome-page" class="page active">
+        <!-- FEATURE 3: INFINITE balloons — JS continuously spawns
+             new ones so they never stop rising. -->
+        <div class="balloon-float" id="balloon-float" aria-hidden="true"></div>
+
+        <!-- Welcome content card -->
+        <div class="welcome-card fade-in">
+            <div class="cake-icon">🎂</div>
+            <h1 class="welcome-title">Are you the Birthday Girl, Nidhi? 🎂</h1>
+            <button id="enter-btn" class="btn-glow">Yes, It's Me ❤️</button>
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- PAGE 2: Photo Gallery Experience             -->
+    <!-- ============================================= -->
+    <section id="gallery-page" class="page">
+        <!-- FEATURE 3: INFINITE confetti + sparkles + hearts container.
+             JS continuously generates new elements so animations
+             never stop throughout the slideshow. -->
+        <div class="confetti-container" id="confetti-container" aria-hidden="true"></div>
+
+        <!-- FEATURE 4: AMBIENT DECORATIONS BEHIND PHOTOS.
+             Hearts, sparkles, glowing circles, and tiny stars float
+             BEHIND the photo frame to create a dreamy atmosphere.
+             z-index is lower than the photo so faces stay visible. -->
+        <div class="ambient-decor" id="ambient-decor" aria-hidden="true"></div>
+
+        <!-- Gallery content card with glassmorphism -->
+        <div class="gallery-card fade-in">
+            <h1 class="gallery-title">Happy Birthday Nidhi ❤️</h1>
+            <p class="gallery-message">
+                Wishing you a day filled with happiness, laughter, and beautiful memories.
+                May all your dreams come true. Enjoy your special day!
+            </p>
+
+            <!-- Slideshow viewport -->
+            <div class="slideshow-wrapper">
+                <div class="slideshow" id="slideshow">
+                    <!-- Slide images are injected here dynamically via script.js -->
+                </div>
+                <!-- NEW: prev / next arrow buttons for manual photo navigation -->
+                <button class="slide-arrow slide-arrow-prev" id="slide-prev" aria-label="Previous photo">‹</button>
+                <button class="slide-arrow slide-arrow-next" id="slide-next" aria-label="Next photo">›</button>
+                <!-- Photo counter overlay -->
+                <div class="photo-counter">
+                    Photo <span id="current-photo">1</span> / <span id="total-photos">5</span>
+                </div>
+                <!-- Loading spinner shown until the first photo finishes loading -->
+                <div class="slide-loader" id="slide-loader">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+
+            <!-- Navigation dots for slideshow -->
+            <div class="slide-nav" id="slide-nav"></div>
+
+            <!-- NEW: personal caption that updates per slide (leave empty by default) -->
+            <p class="slide-caption" id="slide-caption"></p>
+
+            <!-- NEW: signature line to make the gift feel personal -->
+            <div class="signature">Made with <span>❤️</span> just for you, Nidhi</div>
+        </div>
+
+        <!-- ENHANCEMENT: Slideshow hint — subtle pulse, bottom-center, always visible -->
+        <div class="slideshow-hint" id="slideshow-hint">
+            💖 Don't touch the screen for 12 seconds to discover a hidden surprise...
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- PAGE 3: Final Memory Message                   -->
+    <!-- FEATURE 8: Shown after the last photo with     -->
+    <!-- a heartfelt farewell message and animations.   -->
+    <!-- ============================================= -->
+    <section id="final-page" class="page">
+        <div class="confetti-container" id="final-confetti" aria-hidden="true"></div>
+        <div class="final-card fade-in">
+            <div class="final-cake">🎂✨</div>
+            <h1 class="final-title">Happy Birthday Nidhi ❤️</h1>
+            <div class="final-divider"></div>
+            <p class="final-message">
+                Thank you for all the wonderful memories, smiles, conversations, and moments we've shared.
+            </p>
+            <p class="final-message">
+                May this year bring you happiness, success, laughter, good health, and everything your heart wishes for.
+            </p>
+            <p class="final-message final-highlight">
+                Wishing you a truly beautiful birthday and an amazing year ahead. 🎂✨
+            </p>
+            <!-- ENHANCEMENT: Hidden memory collage — only shown if the user
+                 stayed inactive for 12 seconds during the slideshow.
+                 Populated by JS with shuffled slideshow photos in polaroid style.
+                 Floating hearts float INSIDE this container, behind the polaroids. -->
+            <div class="memory-collage" id="memory-collage" aria-hidden="true">
+                <!-- Hearts container moved INSIDE the collage so hearts
+                     float behind the polaroid cards as a background layer. -->
+                <div class="final-hearts collage-hearts" id="final-hearts" aria-hidden="true"></div>
+            </div>
+            <div class="signature">Made with <span>❤️</span> just for you, Nidhi</div>
+        </div>
+    </section>
+
+    <!-- FEATURE 7: Enhanced floating music control — play / pause / mute.
+         Placed OUTSIDE all page sections so it stays visible on ALL pages
+         (gallery AND final message page). position:fixed in CSS. -->
+    <button id="mute-btn" class="mute-btn hidden" aria-label="Mute music">🔊</button>
+
+    <!-- Audio element for background music requested on user gesture -->
+    <!-- ============================================= -->
+    <!-- AUDIO: Add or replace your birthday music here -->
+    <!-- Path: assets/audio/happy-birthday.mp3         -->
+    <!-- ============================================= -->
+    <audio id="birthday-audio" loop>
+        <source src="assets/audio/happy-birthday.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
